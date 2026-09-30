@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-#if !IOS
+#if !IOS && !XBOX
 using TextCopy;
 #endif
 
@@ -11,14 +11,14 @@ namespace Gum.Clipboard;
 
 public class ClipboardImplementation
 {
-#if !IOS
+#if !IOS && !XBOX
     public static IClipboard? InjectedClipboard { get; set; }
     private static Task<string?>? _injectedClipboardTask;
 #endif
 
     public static string GetText(Action? callback)
     {
-#if IOS
+#if IOS || XBOX
         return string.Empty;
 #else
         if (InjectedClipboard != null)
@@ -47,7 +47,7 @@ public class ClipboardImplementation
 
     public static void PushStringToClipboard(string text)
     {
-#if IOS
+#if IOS || XBOX
         // todo - do we care to fix this?
 #else
         if (InjectedClipboard != null)

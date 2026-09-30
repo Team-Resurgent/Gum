@@ -121,7 +121,7 @@ public class Keyboard : IInputReceiverKeyboardMonoGame
     {
         if (game?.Window != null && windowTextInputBuffer == null)
         {
-#if !FNA
+#if !FNA && !XBOX
             var succeeded = false;
             try
             {
@@ -145,7 +145,7 @@ public class Keyboard : IInputReceiverKeyboardMonoGame
     string processedStringFromWindow;
 
 
-#if !FNA
+#if !FNA && !XBOX
     private void HandleWindowTextInput(object? sender, TextInputEventArgs e)
     {
         lock(windowTextInputBuffer)

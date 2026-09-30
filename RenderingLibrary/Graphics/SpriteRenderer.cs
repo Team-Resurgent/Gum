@@ -185,10 +185,17 @@ public class SpriteRenderer
             basicEffect.World = ForcedMatrix ?? Microsoft.Xna.Framework.Matrix.Identity;
 
             //effect.Projection = Matrix.CreateOrthographic(100, 100, 0.0001f, 1000);
-            basicEffect.Projection = Microsoft.Xna.Framework.Matrix.CreateOrthographic(
+            var basicProjection = Microsoft.Xna.Framework.Matrix.CreateOrthographic(
                 width,
                 -height,
                 -1, 1);
+            // Matches SpriteEffect, so point-sampled regions don't pick up neighbouring texels.
+            if (basicEffect.GraphicsDevice.UseHalfPixelOffset)
+            {
+                basicProjection.M41 += -0.5f * basicProjection.M11;
+                basicProjection.M42 += -0.5f * basicProjection.M22;
+            }
+            basicEffect.Projection = basicProjection;
 
             basicEffect.View =  GetZoomAndMatrix(layer, camera);
 

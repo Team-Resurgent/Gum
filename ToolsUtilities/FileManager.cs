@@ -41,8 +41,9 @@ namespace ToolsUtilities
                     string result = AppContext.BaseDirectory;
 
                     // Blazor-WASM returns "/" for BaseDirectory, which is invalid for GetDirectoryName.
+                    // A drive root such as "D:\" has no directory name, so it is the location itself.
                     if (result != "/")
-                        result = Path.GetDirectoryName(result);
+                        result = Path.GetDirectoryName(result) ?? result.TrimEnd('\\', '/');
 
                     return result.Replace('/', Path.DirectorySeparatorChar)
                                  .Replace('\\', Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
